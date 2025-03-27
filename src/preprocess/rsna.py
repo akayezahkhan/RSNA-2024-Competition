@@ -25,7 +25,7 @@ class RsnaProcessor():
         stage: int = 1,
         percentiles: tuple[int]= (1,99),
         mode: str = "train",
-        in_dir: str = "/kaggle/working/data/raw/RSNA/", 
+        in_dir: str = "/kaggle/working/data/raw/RSNA/train_images/", 
         out_dir: str = "/kaggle/working/data/sample_stage1", 
         t2_width_pct: float = 75,
         t2_offset_pct: float = 50,
