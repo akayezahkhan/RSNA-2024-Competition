@@ -97,14 +97,14 @@ if __name__ == "__main__":
     for f in FOLDS:
         MODELS[f]= {
             "S2": {
-                "cfg_stage1_s2": glob.glob("./data/checkpoints/cfg_stage1_s2_fold{}*.pt".format(f)),
-                "cfg_stage2_s2_sp1": glob.glob("./data/checkpoints/cfg_stage2_s2_sp1_fold{}*.pt".format(f)),
-                "cfg_stage2_s2_sp2": glob.glob("./data/checkpoints/cfg_stage2_s2_sp2_fold{}*.pt".format(f)),
-                "cfg_stage2_s2_su": glob.glob("./data/checkpoints/cfg_stage2_s2_su_fold{}*.pt".format(f)),
+                "cfg_stage1_s2": glob.glob("/kaggle/working/data/checkpoints/cfg_stage1_s2_fold{}*.pt".format(f)),
+                "cfg_stage2_s2_sp1": glob.glob("/kaggle/working/data/checkpoints/cfg_stage2_s2_sp1_fold{}*.pt".format(f)),
+                "cfg_stage2_s2_sp2": glob.glob("/kaggle/working/data/checkpoints/cfg_stage2_s2_sp2_fold{}*.pt".format(f)),
+                "cfg_stage2_s2_su": glob.glob("/kaggle/working/data/checkpoints/cfg_stage2_s2_su_fold{}*.pt".format(f)),
             },
             "S1": {
-                "cfg_stage1_s1": glob.glob("./data/checkpoints/cfg_stage1_s1_fold{}*.pt".format(f)),
-                "cfg_stage2_s1_fo": glob.glob("./data/checkpoints/cfg_stage2_s1_fo_fold{}*.pt".format(f)),
+                "cfg_stage1_s1": glob.glob("/kaggle/working/data/checkpoints/cfg_stage1_s1_fold{}*.pt".format(f)),
+                "cfg_stage2_s1_fo": glob.glob("/kaggle/working/data/checkpoints/cfg_stage2_s1_fo_fold{}*.pt".format(f)),
             },
         }
     print(json.dumps(MODELS, indent=4))
@@ -116,8 +116,8 @@ if __name__ == "__main__":
 
         print("-"*25, f" RUNNING FOLD {FOLD} ", "-"*25)
         cols= ['study_id', 'series_id', 'series_description'] 
-        df= pd.read_csv("./data/raw/train_series_descriptions.csv")
-        md= pd.read_csv("./data/metadata/metadata.csv")
+        df= pd.read_csv("/kaggle/working/data/raw/RSNA/train_series_descriptions.csv")
+        md= pd.read_csv("/kaggle/working/data/metadata/metadata")
 
         # Select FOLD data
         if FOLD != -100:
@@ -143,8 +143,8 @@ if __name__ == "__main__":
         p= RsnaProcessor(
             df= z,
             stage = 1,
-            in_dir="./data/raw/", 
-            out_dir="./data/sample_stage1",
+            in_dir="/kaggle/working/data/raw", 
+            out_dir="/kaggle/working/data/sample_stage1",
             mode="train",
             )
         p.run()
@@ -156,7 +156,7 @@ if __name__ == "__main__":
                 config_file= config_file,
                 stage= 1,
                 wpaths= MODELS[FOLD]["S1"][config_file],
-                img_dir= "./data/sample_stage1",
+                img_dir= "/kaggle/working/data/sample_stage1",
                 fold= FOLD,
             )
 
@@ -167,7 +167,7 @@ if __name__ == "__main__":
                 config_file= config_file,
                 stage= 1,
                 wpaths= MODELS[FOLD]["S2"][config_file],
-                img_dir= "./data/sample_stage1",
+                img_dir= "/kaggle/working/data/sample_stage1",
                 fold= FOLD,
             )
 
@@ -193,8 +193,8 @@ if __name__ == "__main__":
             df= z,
             coords_sag= coords_sag,
             stage = 2,
-            in_dir="./data/raw/", 
-            out_dir=f"./data/sample_stage2",
+            in_dir="/kaggle/working/data/raw", 
+            out_dir=f"/kaggle/working/data/sample_stage2",
             mode="train",
             )
         p.run()
@@ -206,7 +206,7 @@ if __name__ == "__main__":
                 config_file= config_file,
                 stage= 2,
                 wpaths= MODELS[FOLD]["S1"][config_file],
-                img_dir= "./data/sample_stage2",
+                img_dir= "/kaggle/working/data/sample_stage2",
                 fold= FOLD,
                 n_tta= N_TTA,
             )
@@ -218,7 +218,7 @@ if __name__ == "__main__":
                 config_file= config_file,
                 stage= 2,
                 wpaths= MODELS[FOLD]["S2"][config_file],
-                img_dir= "./data/sample_stage2",
+                img_dir= "/kaggle/working/data/sample_stage2",
                 fold= FOLD,
                 n_tta= N_TTA,
             )
@@ -254,7 +254,7 @@ if __name__ == "__main__":
         
     # -------------- Score DF ----------------
     # Remove rows that have no labels
-    sol= pd.read_csv("./data/metadata/study_id_labels.csv")
+    sol= pd.read_csv("/kaggle/working/data/metadata/metadata/study_id_labels.csv")
     print(sol.shape, sub.shape)
     sol= pd.merge(sol, sub["row_id"], how="inner", on="row_id")
     sub= pd.merge(sub, sol["row_id"], how="inner", on="row_id")
@@ -262,7 +262,7 @@ if __name__ == "__main__":
 
     sol= sol.sort_values("row_id").reset_index(drop=True)
     sub= sub.sort_values("row_id").reset_index(drop=True)
-    sub.to_csv("./data/bartley_sagittal_oof.csv", index=False)
+    sub.to_csv("/kaggle/working/data/bartley_sagittal_oof.csv", index=False)
 
     weights= np.array([1.0, 2.0, 4.0])
     sol["sample_weight"]= weights[np.argmax(sol[['normal_mild', 'moderate', 'severe']], axis=1)]
