@@ -143,7 +143,7 @@ if __name__ == "__main__":
         p= RsnaProcessor(
             df= z,
             stage = 1,
-            in_dir="/kaggle/working/data/raw", 
+            in_dir="/kaggle/working/data/raw/RSNA/", 
             out_dir="/kaggle/working/data/sample_stage1",
             mode="train",
             )
