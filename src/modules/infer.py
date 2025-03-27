@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
         print("-"*25, f" RUNNING FOLD {FOLD} ", "-"*25)
         cols= ['study_id', 'series_id', 'series_description'] 
-        df= pd.read_csv("/kaggle/working/data/raw/train_series_descriptions.csv")
+        df= pd.read_csv("/kaggle/working/data/raw/RSNA/train_series_descriptions.csv")
         md= pd.read_csv("/kaggle/working/data/metadata/metadata/metadata.csv")
 
         # Select FOLD data
