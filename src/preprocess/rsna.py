@@ -223,9 +223,13 @@ class RsnaProcessor():
             raise ValueError("series_description not recognized.")
 
         # Coords -> Pairs
-        p= cdf.groupby("level") \
-                      .apply(lambda g: list(zip(g['relative_x'], g['relative_y'])), include_groups=False) \
-                      .reset_index(drop=False, name="vals")
+        # p= cdf.groupby("level") \
+        #               .apply(lambda g: list(zip(g['relative_x'], g['relative_y'])), include_groups=False) \
+        #               .reset_index(drop=False, name="vals")
+        p = cdf.groupby("level") \
+                        .apply(lambda g: list(zip(g['relative_x'], g['relative_y']))) \
+                        .reset_index().rename(columns={0: "vals"})  # ✅ Correct way
+
 
         imgs= []
         for idx, (_, row) in enumerate(p.iterrows()):
@@ -351,7 +355,7 @@ class RsnaProcessor():
 if __name__ == "__main__":
 
     # Load data
-    df= pd.read_csv("/kaggle/working/data/raw/RSNA/train_series_descriptions.csv")
+    df= pd.read_csv("/kaggle/working/data/raw/RSNA/test_series_descriptions.csv")
     df= df[~df.series_id.isin([
         3892989905, 2097107888, 2679683906, 1771893480, 
         996418962, 1753543608, 1848483560, # Bad Axial T2s
@@ -371,7 +375,7 @@ if __name__ == "__main__":
         stage = 1,
         in_dir="/kaggle/working/data/raw/RSNA/", 
         out_dir="/kaggle/working/data/processed_stage1/",
-        mode="train",
+        mode="test",
         )
     p.run()
 
@@ -383,6 +387,6 @@ if __name__ == "__main__":
         stage = 2,
         in_dir="/kaggle/working/data/raw/RSNA/", 
         out_dir="/kaggle/working/data/processed_stage2/",
-        mode="train",
+        mode="test",
         )
     p.run()
