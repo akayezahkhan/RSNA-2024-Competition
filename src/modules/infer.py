@@ -89,7 +89,7 @@ if __name__ == "__main__":
     # Inference run
     N_TTA= 9
     N_SAMPLES= 999999
-    FOLDS= [0,1,2,3]
+    FOLDS= [3]
     RUN = True
 
     # Load models
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         p= RsnaProcessor(
             df= z,
             stage = 1,
-            in_dir="/kaggle/working/data/raw/RSNA/train_images/", 
+            in_dir="/kaggle/working/data/raw", 
             out_dir="/kaggle/working/data/sample_stage1",
             mode="train",
             )
@@ -227,13 +227,13 @@ if __name__ == "__main__":
     arr= []
 
     # Load SagT1s
-    fpaths= glob.glob("./cfg_stage2_s1*.csv")
+    fpaths= glob.glob("/kaggle/working/cfg_stage2_s1*.csv")
     df1= pd.concat([pd.read_csv(x) for x in fpaths], axis=0)
     df1= df1.drop(columns=["config_file"])
     df1= df1.groupby("row_id").mean().reset_index()
 
     # Load SagT2s
-    fpaths= glob.glob("./cfg_stage2_s2*.csv")
+    fpaths= glob.glob("/kaggle/working/cfg_stage2_s2*.csv")
     df2= pd.concat([pd.read_csv(x) for x in fpaths], axis=0)
     df2= df2[~((df2["row_id"].str.contains("subarticular")) & (df2["config_file"].isin(["cfg_stage2_s2_sp1", "cfg_stage2_s2_sp2"])))]
     df2= df2.drop(columns=["config_file"])
