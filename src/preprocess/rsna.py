@@ -25,7 +25,7 @@ class RsnaProcessor():
         stage: int = 1,
         percentiles: tuple[int]= (1,99),
         mode: str = "train",
-        in_dir: str = "/kaggle/working/data/raw/RSNA/train_images/", 
+        in_dir: str = "/kaggle/working/data/raw", 
         out_dir: str = "/kaggle/working/data/sample_stage1", 
         t2_width_pct: float = 75,
         t2_offset_pct: float = 50,
@@ -351,7 +351,7 @@ class RsnaProcessor():
 if __name__ == "__main__":
 
     # Load data
-    df= pd.read_csv("./data/raw/train_series_descriptions.csv")
+    df= pd.read_csv("/kaggle/working/data/raw/RSNA/train_series_descriptions.csv")
     df= df[~df.series_id.isin([
         3892989905, 2097107888, 2679683906, 1771893480, 
         996418962, 1753543608, 1848483560, # Bad Axial T2s
@@ -369,20 +369,20 @@ if __name__ == "__main__":
     p= RsnaProcessor(
         df= df,
         stage = 1,
-        in_dir="./data/raw/", 
-        out_dir="./data/processed_stage1/",
+        in_dir="/kaggle/working/data/raw", 
+        out_dir="/kaggle/working/data/processed_stage1/",
         mode="train",
         )
     p.run()
 
     # Stage 2: Classification
-    coords_sag= pd.read_csv("./data/metadata/coords_v7.csv")
+    coords_sag= pd.read_csv("/kaggle/working/data/metadata/metadata/coords_v7.csv")
     p= RsnaProcessor(
         df= df,
         coords_sag= coords_sag,
         stage = 2,
-        in_dir="./data/raw/", 
-        out_dir="./data/processed_stage2/",
+        in_dir="/kaggle/working/data/raw", 
+        out_dir="/kaggle/working/data/processed_stage2/",
         mode="train",
         )
     p.run()
