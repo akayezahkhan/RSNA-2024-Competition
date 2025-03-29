@@ -173,11 +173,11 @@ if __name__ == "__main__":
 
         # # ---------------------------------------- Stage 2 ----------------------------------------
         # Load SagT1s
-        df1= pd.concat([pd.read_csv(x) for x in glob.glob("./cfg_stage1_s1*_{}.csv".format(FOLD))], axis=0)
+        df1= pd.concat([pd.read_csv(x) for x in glob.glob("/kaggle/working/cfg_stage1_s1*_{}.csv".format(FOLD))], axis=0)
         df1= df1.groupby(['series_id', 'level', 'side'])[['relative_x', 'relative_y']].median().reset_index()
 
         # Load SagT2s
-        df2= pd.concat([pd.read_csv(x) for x in glob.glob("./cfg_stage1_s2*_{}.csv".format(FOLD))], axis=0)
+        df2= pd.concat([pd.read_csv(x) for x in glob.glob("/kaggle/working/cfg_stage1_s2*_{}.csv".format(FOLD))], axis=0)
         df2= df2.groupby(['series_id', 'level', 'side'])[['relative_x', 'relative_y']].median().reset_index()
 
         # Combine
