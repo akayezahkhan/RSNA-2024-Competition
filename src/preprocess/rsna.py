@@ -369,7 +369,7 @@ if __name__ == "__main__":
     p= RsnaProcessor(
         df= df,
         stage = 1,
-        in_dir="/kaggle/working/data/raw/RSNA/train_images/4003253/2448190387", 
+        in_dir="/kaggle/working/data/raw/", 
         out_dir="/kaggle/working/data/processed_stage1/",
         mode="train",
         )
@@ -381,7 +381,7 @@ if __name__ == "__main__":
         df= df,
         coords_sag= coords_sag,
         stage = 2,
-        in_dir="/kaggle/working/data/raw/RSNA/train_images/4003253/2448190387", 
+        in_dir="/kaggle/working/data/raw/", 
         out_dir="/kaggle/working/data/processed_stage2/",
         mode="train",
         )
