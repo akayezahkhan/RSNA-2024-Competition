@@ -25,7 +25,7 @@ class RsnaProcessor():
         stage: int = 1,
         percentiles: tuple[int]= (1,99),
         mode: str = "train",
-        in_dir: str = "/kaggle/working/data/raw/RSNA/train_images/4003253", 
+        in_dir: str = "/kaggle/working/data/raw/RSNA/", 
         out_dir: str = "/kaggle/working/data/sample_stage1", 
         t2_width_pct: float = 75,
         t2_offset_pct: float = 50,
@@ -351,7 +351,7 @@ class RsnaProcessor():
 if __name__ == "__main__":
 
     # Load data
-    df= pd.read_csv("/kaggle/working/data/raw/RSNA/train_series_descriptions.csv")
+    df= pd.read_csv("/kaggle/working/data/raw/RSNA/test_series_descriptions.csv")
     df= df[~df.series_id.isin([
         3892989905, 2097107888, 2679683906, 1771893480, 
         996418962, 1753543608, 1848483560, # Bad Axial T2s
@@ -371,7 +371,7 @@ if __name__ == "__main__":
         stage = 1,
         in_dir="/kaggle/working/data/raw/RSNA/", 
         out_dir="/kaggle/working/data/processed_stage1/",
-        mode="train",
+        mode="test",
         )
     p.run()
 
@@ -383,6 +383,6 @@ if __name__ == "__main__":
         stage = 2,
         in_dir="/kaggle/working/data/raw/RSNA/", 
         out_dir="/kaggle/working/data/processed_stage2/",
-        mode="train",
+        mode="test",
         )
     p.run()
