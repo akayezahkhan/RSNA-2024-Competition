@@ -223,14 +223,10 @@ class RsnaProcessor():
             raise ValueError("series_description not recognized.")
 
         # Coords -> Pairs
-        # p= cdf.groupby("level") \
-        #               .apply(lambda g: list(zip(g['relative_x'], g['relative_y'])), include_groups=False) \
-        #               .reset_index(drop=False, name="vals")
-        p = cdf.groupby("level") \
-                        .apply(lambda g: list(zip(g['relative_x'], g['relative_y']))) \
-                        .reset_index().rename(columns={0: "vals"})  # ✅ Correct way
-
-
+        p= cdf.groupby("level") \
+                      .apply(lambda g: list(zip(g['relative_x'], g['relative_y'])), include_groups=False) \
+                      .reset_index(drop=False, name="vals")
+    
         imgs= []
         for idx, (_, row) in enumerate(p.iterrows()):
             # Copy of img
